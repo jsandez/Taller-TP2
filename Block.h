@@ -3,28 +3,47 @@
 #include <list>
 #include "InputStream.h"
 
+/*
+ * Clase que representa un bloque en el marco de referencia
+ * Atributos:
+ *            - size: cantidad de numeros que contiene el bloque.
+ *            - numbers: numeros del bloque
+ *            - reference: numero que sera utilizado como referencia
+ *            - bit_size: cantidad de bits necesarios para representar al mayor numero
+ *            - list_int: lista que contiene la representacion de los numeros
+ *                        en la cantidad de bits correspondientes
+ */
+
 class Block {
  private:
   int size;
   unsigned int *numbers;
   unsigned int reference;
+  unsigned int bit_size;
   std::list<int> list_int;
+  /*
+   * Metodos privados que se llamaran cuando se ejecuten los metodos publicos correspondientes.
+   */
+  unsigned int getMax();
+  void setReference();
+  void setMaxBitSize();
 
  public:
   Block(int size);
-  // TODO: OJO ESTE SETNUMBERS; VERIFICAR QUE PASA CUANDO NO LEE NADA
-  void setNumbers(InputStream &input_stream);
-  // TODO: VER SI ESTO ES NECESARIO SEPARARLO O SE HACE EN EL CONSTRUCTOR
-  void setReference();
+  /*
+   * Metodos publicos para manejar el ciclo de vida del bloque
+   */
+  void fillNumbers(InputStream &input_stream);
+  void resizeNumbers();
+  void fillList();
+
+  /*
+   * Getters correspondientes para escribir en el output stream
+   */
   unsigned int getReference() const;
-  // TODO: DEBERIA HABER UN NUEVO BLOQUE PARA ESTO??
-  void numbersDifference();
-  unsigned int getMaxBitSize();
-  // TODO: DEBERIA SER PRIVADO??
-  unsigned int getMax();
-  unsigned int getNumber(int pos) const;
-  void addList(int value);
+  unsigned int getBitSize() const;
   std::list<int> getList() const;
+
   ~Block();
 };
 

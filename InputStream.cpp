@@ -14,7 +14,7 @@ int InputStream::size() {
   return size / 4;
 }
 
-int InputStream::getNumber() {
+unsigned int InputStream::getNumber() {
   char c[4];
   this->f->read(c, 4);
   if (this->f->gcount() == 0) {

@@ -11,9 +11,9 @@ void Bits::represent(unsigned int number){
     unsigned long result_division = number;
     int rest = 0;
     while (result_division > 1) {
-      result_division = result_division / 2;
-      rest = number % 2;
+      rest = result_division % 2;
       this->data[i] = rest;
+      result_division = result_division / 2;
       i++;
     }
     this->data[i] = result_division;

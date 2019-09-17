@@ -9,9 +9,9 @@ class OutputStream {
   std::ofstream *f;
 
  public:
-  OutputStream(const char *name, const char *flags);
-  void setReference(char *c);
-  void setBitAmount(char c);
+  OutputStream(const char *name);
+  void setReference(unsigned int reference);
+  void setBitAmount(unsigned int c);
   void setBits(std::list<int> list);
   ~OutputStream();
 

@@ -10,7 +10,7 @@ class InputStream {
  public:
   InputStream(const char *name);
   int size();
-  int getNumber();
+  unsigned int getNumber();
   ~InputStream();
 
 };
