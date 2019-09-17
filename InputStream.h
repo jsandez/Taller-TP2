@@ -6,11 +6,13 @@
 class InputStream {
  private:
   std::ifstream *f;
+  bool failbit;
 
  public:
   InputStream(const char *name);
   int size();
   unsigned int getNumber();
+  bool getFailBit() const;
   ~InputStream();
 
 };

@@ -6,6 +6,11 @@
 OutputStream::OutputStream(const char *name) {
   this->f = new std::ofstream;
   this->f->open(name, std::iostream::binary);
+    if (this->f->fail()) {
+        this->failbit = true;
+    } else {
+        this->failbit = false;
+    }
 }
 
 void OutputStream::setReference(unsigned int reference) {
@@ -37,6 +42,9 @@ void OutputStream::setBits(std::list<int> list) {
   }
 }
 
+bool OutputStream::getFailBit() const {
+    return this->failbit;
+}
 OutputStream::~OutputStream() {
   this->f->close();
   delete this->f;

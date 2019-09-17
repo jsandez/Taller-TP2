@@ -7,12 +7,14 @@
 class OutputStream {
  private:
   std::ofstream *f;
+  bool failbit;
 
  public:
   OutputStream(const char *name);
   void setReference(unsigned int reference);
   void setBitAmount(unsigned int c);
   void setBits(std::list<int> list);
+  bool getFailBit() const;
   ~OutputStream();
 
 };
