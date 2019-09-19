@@ -24,9 +24,9 @@ class Block {
   /*
    * Metodos privados que se llamaran cuando se ejecuten los metodos publicos correspondientes.
    */
-  unsigned int getMax();
-  void setReference();
-  void setMaxBitSize();
+  unsigned int __getMax();
+  void __setReference();
+  void __setMaxBitSize();
 
  public:
   Block(int size);

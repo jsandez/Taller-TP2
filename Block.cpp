@@ -3,7 +3,7 @@
 #include <list>
 
 // PRIVADO
-unsigned int Block::getMax() {
+unsigned int Block::__getMax() {
   unsigned int max = this->numbers[0];
   for (int i = 0; i < this->size; i++) {
     if (this->numbers[i] > max) {
@@ -13,7 +13,7 @@ unsigned int Block::getMax() {
   return max;
 }
 
-void Block::setReference() {
+void Block::__setReference() {
   this->reference = this->numbers[0];
   for (int i = 1; i < this->size; i++) {
     if (this->numbers[i] < reference) {
@@ -22,8 +22,8 @@ void Block::setReference() {
   }
 }
 
-void Block::setMaxBitSize() {
-  unsigned int max = getMax();
+void Block::__setMaxBitSize() {
+  unsigned int max = __getMax();
   unsigned int bits_amount = 1;
   if (max == 0) {
     this->bit_size = 0;
@@ -51,14 +51,14 @@ void Block::fillNumbers(InputStream &input_stream) {
       this->numbers[i] = this->numbers[i - 1];
     }
   }
-  setReference();
 }
 
 void Block::resizeNumbers() {
   for (int i = 0; i < this->size; i++) {
     this->numbers[i] = this->numbers[i] - this->reference;
   }
-  setMaxBitSize();
+  __setReference();
+  __setMaxBitSize();
 }
 
 void Block::fillList() {
