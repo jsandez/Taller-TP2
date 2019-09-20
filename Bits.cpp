@@ -1,9 +1,6 @@
 #include "Bits.h"
 
-Bits::Bits(int size) {
-  this->size = size;
-  this->data = new int[size]();
-}
+Bits::Bits(int size): data(size) {}
 
 void Bits::represent(unsigned int number){
   int i = 0;
@@ -24,6 +21,4 @@ bool Bits::get(int pos) const {
   return this->data[pos];
 }
 
-Bits::~Bits() {
-  delete[] this->data;
-}
+Bits::~Bits() {}

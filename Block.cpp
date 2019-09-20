@@ -37,9 +37,8 @@ void Block::__setMaxBitSize() {
 }
 
 // PUBLICO
-Block::Block(int size) {
+Block::Block(int size) : numbers(size) {
     this->size = size;
-    this->numbers = new unsigned int[size]();
 }
 
 void Block::fillNumbers(InputStream &input_stream) {
@@ -53,7 +52,7 @@ void Block::fillNumbers(InputStream &input_stream) {
     }
 }
 
-void Block::resizeNumbers() {
+void Block::process() {
     __setReference();
     for (int i = 0; i < this->size; i++) {
         this->numbers[i] = this->numbers[i] - this->reference;
@@ -83,6 +82,4 @@ std::list<int> Block::getList() const {
     return this->list_int;
 }
 
-Block::~Block() {
-    delete[] this->numbers;
-}
+Block::~Block() {}

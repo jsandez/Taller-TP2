@@ -6,7 +6,7 @@
 
 class OutputStream {
  private:
-  std::ofstream *f;
+  std::ofstream ofs;
   bool failbit;
 
  public:

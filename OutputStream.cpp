@@ -3,10 +3,8 @@
 #include <bitset>
 #include "OutputStream.h"
 
-OutputStream::OutputStream(const char *name) {
-  this->f = new std::ofstream;
-  this->f->open(name, std::iostream::binary);
-    if (this->f->fail()) {
+OutputStream::OutputStream(const char *name): ofs(name,std::iostream::binary) {
+    if (this->ofs.fail()) {
         this->failbit = true;
     } else {
         this->failbit = false;
@@ -17,13 +15,13 @@ void OutputStream::setReference(unsigned int reference) {
   char arr_ref[4];
   unsigned int referenceOut = htonl(reference);
   memcpy(arr_ref, &referenceOut, 4);
-  this->f->put(arr_ref[0]);
-  this->f->put(arr_ref[1]);
-  this->f->put(arr_ref[2]);
-  this->f->put(arr_ref[3]);
+  this->ofs.put(arr_ref[0]);
+  this->ofs.put(arr_ref[1]);
+  this->ofs.put(arr_ref[2]);
+  this->ofs.put(arr_ref[3]);
 }
 void OutputStream::setBitAmount(unsigned int c) {
-  this->f->put((char) c);
+  this->ofs.put((char) c);
 }
 void OutputStream::setBits(std::list<int> list) {
   std::bitset<8> bit_set;
@@ -32,13 +30,13 @@ void OutputStream::setBits(std::list<int> list) {
     bit_set[i] = entero;
     i--;
     if (i < 0) {
-      this->f->put((char) bit_set.to_ulong());
+      this->ofs.put((char) bit_set.to_ulong());
       i = 7;
       bit_set.reset();
     }
   }
   if ((i > 0) && (i < 7)) {
-    this->f->put((char) bit_set.to_ulong());
+    this->ofs.put((char) bit_set.to_ulong());
   }
 }
 
@@ -46,6 +44,5 @@ bool OutputStream::getFailBit() const {
     return this->failbit;
 }
 OutputStream::~OutputStream() {
-  this->f->close();
-  delete this->f;
+  this->ofs.close();
 }

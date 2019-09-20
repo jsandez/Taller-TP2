@@ -1,10 +1,10 @@
 #ifndef _BITARRAY_H_
 #define _BITARRAY_H_
 
+#include <vector>
 class Bits {
  private:
-  int size;
-  int *data;
+  std::vector<int> data;
 
  public:
   Bits(int size);

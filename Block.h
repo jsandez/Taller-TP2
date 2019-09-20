@@ -1,6 +1,7 @@
 #ifndef _BLOCK_H_
 #define _BLOCK_H_
 #include <list>
+#include <vector>
 #include "InputStream.h"
 
 /*
@@ -17,7 +18,7 @@
 class Block {
  private:
   int size;
-  unsigned int *numbers;
+  std::vector<int> numbers;
   unsigned int reference;
   unsigned int bit_size;
   std::list<int> list_int;
@@ -34,7 +35,7 @@ class Block {
    * Metodos publicos para manejar el ciclo de vida del bloque
    */
   void fillNumbers(InputStream &input_stream);
-  void resizeNumbers();
+  void process();
   void fillList();
 
   /*
