@@ -42,3 +42,7 @@ zeroblk
 oneblk
 myfile-asd
 pad
+*.txt
+*.sh
+*.py
+filter_options

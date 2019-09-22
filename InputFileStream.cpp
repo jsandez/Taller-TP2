@@ -1,6 +1,6 @@
 #include <netinet/in.h>
 #include "InputFileStream.h"
-
+/*
 int InputFileStream::__getSize() {
   this->ifs.seekg(0, this->ifs.end);
   int size = this->ifs.tellg();
@@ -29,6 +29,8 @@ int InputFileStream::getNumberOfBlocks(int block_size) {
   return cant_bloques;
 }
 
+
+
 unsigned int InputFileStream::getNumber() {
   char c[4];
   this->ifs.read(c, 4);
@@ -42,3 +44,4 @@ unsigned int InputFileStream::getNumber() {
 InputFileStream::~InputFileStream() {
   this->ifs.close();
 }
+*/

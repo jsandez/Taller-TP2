@@ -2,6 +2,7 @@
 #include <cstring>
 #include <bitset>
 #include "OutputStream.h"
+#include <list>
 
 OutputStream::OutputStream(const char *name): ofs(name,std::iostream::binary) {
     if (this->ofs.fail()) {

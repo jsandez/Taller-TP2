@@ -1,7 +1,7 @@
 #ifndef _INPUTFILESTREAM_H_
 #define _INPUTFILESTREAM_H_
 #include "InputStream.h"
-
+/*
 class InputFileStream : public InputStream {
  private:
   std::ifstream ifs;
@@ -13,5 +13,5 @@ class InputFileStream : public InputStream {
   unsigned int getNumber();
   ~InputFileStream();
 };
-
+*/
 #endif

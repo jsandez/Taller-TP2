@@ -2,7 +2,6 @@
 #define _BLOCK_H_
 #include <list>
 #include <vector>
-#include "InputStream.h"
 
 /*
  * Clase que representa un bloque en el marco de referencia
@@ -18,32 +17,38 @@
 class Block {
  private:
   int size;
-  std::vector<int> numbers;
+  std::vector<unsigned int> numbers;
   unsigned int reference;
   unsigned int bit_size;
   std::list<int> list_int;
   /*
-   * Metodos privados que se llamaran cuando se ejecuten los metodos publicos correspondientes.
+   * Metodos privados
    */
   unsigned int __getMax();
   void __setReference();
   void __setMaxBitSize();
+  void __fillList();
 
  public:
-  Block(int size);
+  explicit Block(int size);
   /*
    * Metodos publicos para manejar el ciclo de vida del bloque
    */
-  void fillNumbers(InputStream &input_stream);
+  void addNumber(unsigned int index, unsigned int number);
+  unsigned int lastNumber();
   void process();
-  void fillList();
 
   /*
    * Getters correspondientes para escribir en el output stream
    */
   unsigned int getReference() const;
   unsigned int getBitSize() const;
+  int getSize() const;
   std::list<int> getList() const;
+
+
+
+  unsigned int getNumber(unsigned int index);
 
   ~Block();
 };

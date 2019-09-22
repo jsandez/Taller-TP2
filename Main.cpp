@@ -1,7 +1,10 @@
-#include <Block.h>
 #include <iostream>
 #include "OutputStream.h"
-#include "InputFileStream.h"
+#include "InputStream.h"
+#include "Thread.h"
+#include "BlockProcessMonitor.h"
+#include "BlockProcess.h"
+#include "Block.h"
 
 int main(int argc, char **argv) {
   int block_size = atoi(argv[1]);
@@ -10,8 +13,8 @@ int main(int argc, char **argv) {
   const char *in_file_name = argv[4];
   const char *out_file_name = argv[5];
 
-  InputFileStream input_file_stream(in_file_name);
-  if (input_file_stream.failToOpen()) {
+  InputStream input_stream(in_file_name);
+  if (input_stream.failToOpen()) {
     std::cout << "Error intentando abrir archivo de entrada" << std::endl;
     return 1;
   }
@@ -21,22 +24,25 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  int cant_bloques = input_file_stream.getNumberOfBlocks(block_size);
+  int cant_bloques = input_stream.getNumberOfBlocks(block_size);
   if (cant_bloques == -1) {
     return 1;
   }
+  BlockProcessMonitor block_process_monitor(input_stream);
+  Thread *th = new BlockProcess(block_process_monitor,block_size,output_stream);
 
   for (int i = 0; i < cant_bloques; i++) {
-    Block block(block_size);
-    block.fillNumbers(input_file_stream);
+    th->start();
+    /*Block block(block_size);
+    input_stream.fillBlock(block);
     block.process();
-
     output_stream.setReference(block.getReference());
     output_stream.setBitAmount(block.getBitSize());
     if (block.getBitSize() != 0) {
-      block.fillList();
       output_stream.setBits(block.getList());
-    }
+    }*/
   }
+  th->join();
+  delete th;
   return 0;
 }

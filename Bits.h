@@ -7,7 +7,7 @@ class Bits {
   std::vector<int> data;
 
  public:
-  Bits(int size);
+  explicit Bits(int size);
   void represent(unsigned int number);
   bool get(int pos) const;
   ~Bits();

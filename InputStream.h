@@ -3,18 +3,21 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include "Block.h"
 
 class InputStream {
  protected:
-  virtual int __getSize() = 0;
+  std::ifstream ifs;
   bool failbit;
+  int __getSize();
+  int __getNumber();
 
  public:
-  InputStream();
-  virtual int getNumberOfBlocks(int block_size) = 0;
-  virtual unsigned int getNumber() = 0;
+  explicit InputStream(const char *name);
+  int getNumberOfBlocks(int block_size);
+  void fillBlock(Block &block);
   bool failToOpen() const;
-  virtual ~InputStream() = 0;
+  ~InputStream();
 };
 
 #endif
