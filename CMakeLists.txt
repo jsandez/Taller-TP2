@@ -7,4 +7,4 @@ SET(CMAKE_CXX_FLAGS -pthread)
 include_directories(.)
 
 add_executable(Taller_TP2
-        Main.cpp Block.cpp Block.h InputStream.h Bits.cpp Bits.h OutputStream.cpp OutputStream.h InputFileStream.cpp InputFileStream.h InputStream.cpp Thread.cpp Thread.h BlockProcessMonitor.cpp BlockProcessMonitor.h BlockProcess.cpp BlockProcess.h)
+        Main.cpp Block.cpp Block.h InputStream.h Bits.cpp Bits.h OutputStream.cpp OutputStream.h InputFileStream.cpp InputFileStream.h InputStream.cpp Thread.cpp Thread.h BlockProcessMonitor.cpp BlockProcessMonitor.h BlockProducer.cpp BlockProducer.h ThreadSafeQueue.cpp ThreadSafeQueue.h)

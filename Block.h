@@ -35,7 +35,6 @@ class Block {
    * Metodos publicos para manejar el ciclo de vida del bloque
    */
   void addNumber(unsigned int index, unsigned int number);
-  unsigned int lastNumber();
   void process();
 
   /*
@@ -45,11 +44,7 @@ class Block {
   unsigned int getBitSize() const;
   int getSize() const;
   std::list<int> getList() const;
-
-
-
   unsigned int getNumber(unsigned int index);
-
   ~Block();
 };
 

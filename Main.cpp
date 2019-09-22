@@ -3,7 +3,7 @@
 #include "InputStream.h"
 #include "Thread.h"
 #include "BlockProcessMonitor.h"
-#include "BlockProcess.h"
+#include "BlockProducer.h"
 #include "Block.h"
 
 int main(int argc, char **argv) {
@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
   const char *in_file_name = argv[4];
   const char *out_file_name = argv[5];
 
-  InputStream input_stream(in_file_name);
+  InputStream input_stream(in_file_name, block_size);
   if (input_stream.failToOpen()) {
     std::cout << "Error intentando abrir archivo de entrada" << std::endl;
     return 1;
@@ -24,25 +24,30 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  int cant_bloques = input_stream.getNumberOfBlocks(block_size);
-  if (cant_bloques == -1) {
+  int number_of_blocks = input_stream.getNumberOfBlocks();
+  if (number_of_blocks == -1) {
     return 1;
   }
-  BlockProcessMonitor block_process_monitor(input_stream);
-  Thread *th = new BlockProcess(block_process_monitor,block_size,output_stream);
 
-  for (int i = 0; i < cant_bloques; i++) {
-    th->start();
-    /*Block block(block_size);
-    input_stream.fillBlock(block);
-    block.process();
-    output_stream.setReference(block.getReference());
-    output_stream.setBitAmount(block.getBitSize());
-    if (block.getBitSize() != 0) {
-      output_stream.setBits(block.getList());
-    }*/
+  std::vector<Thread *> ths;
+  BlockProcessMonitor block_process_monitor(input_stream);
+  for (int i = 0; i < number_of_threads; i++) {
+    ths.push_back(new BlockProducer(block_process_monitor,
+                                    block_size,
+                                    number_of_blocks,
+                                    i,
+                                    number_of_threads,
+                                    output_stream));
   }
-  th->join();
-  delete th;
+
+  for (int i = 0; i < number_of_threads; i++) {
+    ths[i]->start();
+  }
+
+  for (int i = 0; i < number_of_threads; i++) {
+    ths[i]->join();
+    delete ths[i];
+  }
+
   return 0;
 }

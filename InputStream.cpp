@@ -1,11 +1,19 @@
 #include <netinet/in.h>
 #include "InputStream.h"
 
-int InputStream::__getSize() {
-  this->ifs.seekg(0, this->ifs.end);
-  int size = this->ifs.tellg();
-  this->ifs.seekg(0, this->ifs.beg);
-  return size / 4;
+
+void InputStream::__setNumberOfBlocks(int block_size) {
+  if (this->size == 0) {
+    std::cout << "Empty File!!" << std::endl;
+    //EXCEPCION???
+    this->number_of_blocks = -1;
+  } else {
+    int cant_bloques = this->size / block_size;
+    if (this->size % block_size != 0) {
+      cant_bloques++;
+    }
+    this->number_of_blocks = cant_bloques;
+  }
 }
 
 int InputStream::__getNumber() {
@@ -18,40 +26,38 @@ int InputStream::__getNumber() {
   return ntohl(value);
 }
 
-InputStream::InputStream(const char *name) : ifs(name, std::ifstream::binary) {
+InputStream::InputStream(const char *name, int block_size) : ifs(name, std::ifstream::binary) {
   if (this->ifs.fail()) {
     this->failbit = true;
   } else {
     this->failbit = false;
+    this->ifs.seekg(0, this->ifs.end);
+    int size = this->ifs.tellg();
+    this->ifs.seekg(0, this->ifs.beg);
+    this->size = size / 4;
+    __setNumberOfBlocks(block_size);
   }
 }
 
-int InputStream::getNumberOfBlocks(int block_size) {
-  int size_file = __getSize();
-  if (size_file == 0) {
-    std::cout << "Empty File!!" << std::endl;
-    return -1;
-  }
-  int cant_bloques = size_file / block_size;
-  if (size_file % block_size != 0) {
-    cant_bloques++;
-  }
-  return cant_bloques;
-}
-
-void InputStream::fillBlock(Block &block) {
+void InputStream::fillBlock(Block &block, int block_number) {
+  this->ifs.seekg(block_number * 4 * block.getSize(), this->ifs.beg);
   for (int i = 0; i < block.getSize(); i++) {
     int number = __getNumber();
     if (number != -1) {
       block.addNumber(i, number);
     } else {
-      block.addNumber(i, block.lastNumber());
+      block.addNumber(i, block.getNumber(i - 1));
     }
   }
+  this->ifs.seekg(0, this->ifs.beg);
 }
 
 bool InputStream::failToOpen() const {
   return this->failbit;
+}
+
+int InputStream::getNumberOfBlocks() const {
+  return this->number_of_blocks;
 }
 
 InputStream::~InputStream() {

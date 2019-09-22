@@ -65,10 +65,6 @@ void Block::addNumber(unsigned int index, unsigned int number) {
   this->numbers[index] = number;
 }
 
-unsigned int Block::lastNumber() {
-  return this->numbers.back();
-}
-
 unsigned int Block::getReference() const {
   return this->reference;
 }
