@@ -6,9 +6,7 @@
 
 OutputStream::OutputStream(const char *name): ofs(name,std::iostream::binary) {
     if (this->ofs.fail()) {
-        this->failbit = true;
-    } else {
-        this->failbit = false;
+        throw std::runtime_error("File output error");
     }
 }
 
@@ -41,9 +39,6 @@ void OutputStream::setBits(std::list<int> list) {
   }
 }
 
-bool OutputStream::getFailBit() const {
-    return this->failbit;
-}
 OutputStream::~OutputStream() {
   this->ofs.close();
 }

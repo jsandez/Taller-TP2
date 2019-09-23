@@ -85,4 +85,32 @@ unsigned int Block::getNumber(unsigned int index) {
   return this->numbers[index];
 }
 
+Block::Block(Block&& other) {
+    this->bit_size = other.bit_size;
+    this->list_int = std::move(other.list_int);
+    this->numbers = std::move(other.numbers);
+    this->reference = other.reference;
+    this->size = other.size;
+
+    other.bit_size = 0;
+    other.reference= 0;
+    other.size = 0;
+}
+
+Block& Block::operator=(Block &&other) {
+    if (this == &other) {
+        return *this;
+    }
+    this->bit_size = other.bit_size;
+    this->list_int = std::move(other.list_int);
+    this->numbers = std::move(other.numbers);
+    this->reference = other.reference;
+    this->size = other.size;
+
+    other.bit_size = 0;
+    other.reference= 0;
+    other.size = 0;
+    return *this;
+}
+
 Block::~Block() {}

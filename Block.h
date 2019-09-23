@@ -21,9 +21,6 @@ class Block {
   unsigned int reference;
   unsigned int bit_size;
   std::list<int> list_int;
-  /*
-   * Metodos privados
-   */
   unsigned int __getMax();
   void __setReference();
   void __setMaxBitSize();
@@ -33,12 +30,15 @@ class Block {
   explicit Block(int size);
   void addNumber(unsigned int index, unsigned int number);
   void process();
-
   unsigned int getReference() const;
   unsigned int getBitSize() const;
   int getSize() const;
   std::list<int> getList() const;
   unsigned int getNumber(unsigned int index);
+  Block(const Block &other) = delete;
+  Block& operator=(const Block &other) = delete;
+  Block(Block&& other);
+  Block & operator=(Block&& other);
   ~Block();
 };
 
