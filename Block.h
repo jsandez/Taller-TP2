@@ -31,15 +31,9 @@ class Block {
 
  public:
   explicit Block(int size);
-  /*
-   * Metodos publicos para manejar el ciclo de vida del bloque
-   */
   void addNumber(unsigned int index, unsigned int number);
   void process();
 
-  /*
-   * Getters correspondientes para escribir en el output stream
-   */
   unsigned int getReference() const;
   unsigned int getBitSize() const;
   int getSize() const;

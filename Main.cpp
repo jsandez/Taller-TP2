@@ -1,10 +1,11 @@
 #include <iostream>
+#include <vector>
 #include "OutputStream.h"
 #include "InputStream.h"
 #include "Thread.h"
 #include "BlockProcessMonitor.h"
-#include "BlockProducer.h"
-#include "Block.h"
+#include "BlockProducerThread.h"
+#include "BlockConsumerThread.h"
 
 int main(int argc, char **argv) {
   int block_size = atoi(argv[1]);
@@ -30,24 +31,36 @@ int main(int argc, char **argv) {
   }
 
   std::vector<Thread *> ths;
+  std::vector<ThreadSafeQueue *> queues;
   BlockProcessMonitor block_process_monitor(input_stream);
   for (int i = 0; i < number_of_threads; i++) {
-    ths.push_back(new BlockProducer(block_process_monitor,
-                                    block_size,
-                                    number_of_blocks,
-                                    i,
-                                    number_of_threads,
-                                    output_stream));
+    ThreadSafeQueue *thread_safe_queue =
+                new ThreadSafeQueue(max_elements_by_queue);
+    ths.push_back(new BlockProducerThread(block_process_monitor,
+                                          block_size,
+                                          number_of_blocks,
+                                          i,
+                                          number_of_threads,
+                                          thread_safe_queue));
+    queues.push_back(thread_safe_queue);
   }
+  Thread *th_consumer =
+              new BlockConsumerThread(queues, number_of_blocks, output_stream);
 
   for (int i = 0; i < number_of_threads; i++) {
     ths[i]->start();
   }
+  th_consumer->start();
 
   for (int i = 0; i < number_of_threads; i++) {
     ths[i]->join();
+  }
+  th_consumer->join();
+
+  for (int i = 0; i < number_of_threads; i++) {
     delete ths[i];
   }
+  delete th_consumer;
 
   return 0;
 }

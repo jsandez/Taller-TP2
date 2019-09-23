@@ -26,7 +26,8 @@ int InputStream::__getNumber() {
   return ntohl(value);
 }
 
-InputStream::InputStream(const char *name, int block_size) : ifs(name, std::ifstream::binary) {
+InputStream::InputStream(const char *name, int block_size)
+                        : ifs(name, std::ifstream::binary) {
   if (this->ifs.fail()) {
     this->failbit = true;
   } else {
