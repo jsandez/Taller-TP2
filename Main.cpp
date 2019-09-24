@@ -48,7 +48,9 @@ int main(int argc, char **argv) {
             queues.push_back(thread_safe_queue);
         }
         Thread *th_consumer =
-                new BlockConsumerThread(queues, number_of_blocks, output_stream);
+                new BlockConsumerThread(queues,
+                                        number_of_blocks,
+                                        output_stream);
 
         for (int i = 0; i < number_of_threads; i++) {
             ths[i]->start();

@@ -1,4 +1,5 @@
 #include <netinet/in.h>
+#include <cstring>
 #include "InputStream.h"
 
 
@@ -21,7 +22,8 @@ int InputStream::__getNumber() {
     if (this->ifs.gcount() == 0) {
         return -1;
     }
-    int value = *((unsigned int *) &c[0]);
+    int value;
+    memcpy(&value, c, 4);
     return ntohl(value);
 }
 
