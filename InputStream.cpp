@@ -2,7 +2,6 @@
 #include <cstring>
 #include "InputStream.h"
 
-
 void InputStream::__setNumberOfBlocks(int block_size) {
     if (this->size == 0) {
         std::cout << "Empty File!!" << std::endl;

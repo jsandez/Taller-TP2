@@ -1,7 +1,6 @@
 #include "Block.h"
 #include "Bits.h"
 #include <list>
-#include <iostream>
 
 // PRIVADO
 unsigned int Block::__getMax() {

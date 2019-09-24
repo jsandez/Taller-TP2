@@ -1,6 +1,10 @@
 #ifndef _THREAD_H_
 #define _THREAD_H_
 
+/*
+ * Clase abstracta que luego implementaran
+ * los threads correspondientes
+ */
 #include <thread>
 class Thread {
  private:
