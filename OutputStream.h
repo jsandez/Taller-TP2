@@ -10,14 +10,15 @@
  */
 class OutputStream {
  private:
-  std::ofstream ofs;
+  std::ostream *os;
 
  public:
   /*
    * Constructor del stream que recibe
-   * el nombre del archivo que se creara
+   * el tipo de stream en donde se enviaran
+   * los numeros comprimidos
    */
-  explicit OutputStream(const char *name);
+  explicit OutputStream(std::ostream *ostream);
 
   /*
    * Escribe la referencia del bloque

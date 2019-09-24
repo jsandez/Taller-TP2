@@ -17,8 +17,8 @@ void InputStream::__setNumberOfBlocks(int block_size) {
 
 int InputStream::__getNumber() {
     char c[4];
-    this->ifs.read(c, 4);
-    if (this->ifs.gcount() == 0) {
+    this->is->read(c, 4);
+    if (this->is->gcount() == 0) {
         return -1;
     }
     int value;
@@ -26,21 +26,21 @@ int InputStream::__getNumber() {
     return ntohl(value);
 }
 
-InputStream::InputStream(const char *name, int block_size)
-        : ifs(name, std::ifstream::binary) {
-    if (this->ifs.fail()) {
+InputStream::InputStream(std::istream* stream, int block_size)
+        : is(stream) {
+    if (this->is->fail()) {
         throw std::runtime_error("File input error");
     } else {
-        this->ifs.seekg(0, this->ifs.end);
-        int size = this->ifs.tellg();
-        this->ifs.seekg(0, this->ifs.beg);
+        this->is->seekg(0, this->is->end);
+        int size = this->is->tellg();
+        this->is->seekg(0, this->is->beg);
         this->size = size / 4;
         __setNumberOfBlocks(block_size);
     }
 }
 
 void InputStream::fillBlock(Block &block, int block_number) {
-    this->ifs.seekg(block_number * 4 * block.getSize(), this->ifs.beg);
+    this->is->seekg(block_number * 4 * block.getSize(), this->is->beg);
     for (int i = 0; i < block.getSize(); i++) {
         int number = __getNumber();
         if (number != -1) {
@@ -49,13 +49,11 @@ void InputStream::fillBlock(Block &block, int block_number) {
             block.addNumber(i, block.getNumber(i - 1));
         }
     }
-    this->ifs.seekg(0, this->ifs.beg);
+    this->is->seekg(0, this->is->beg);
 }
 
 int InputStream::getNumberOfBlocks() const {
     return this->number_of_blocks;
 }
 
-InputStream::~InputStream() {
-    this->ifs.close();
-}
+InputStream::~InputStream() {}

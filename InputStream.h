@@ -11,7 +11,7 @@
  */
 class InputStream {
  protected:
-  std::ifstream ifs;
+  std::istream* is;
   int size;
   int number_of_blocks;
   int __getNumber();
@@ -19,11 +19,11 @@ class InputStream {
 
  public:
   /*
-   * Constructor que recibe el nombre del archivo
+   * Constructor que recibe el tipo de stream
    * y el tamaño de los bloques en los que debe
    * dividirse
    */
-  explicit InputStream(const char *name, int block_size);
+  explicit InputStream(std::istream* stream, int block_size);
 
   /*
    * Recibe un objeto bloque y lo completa
