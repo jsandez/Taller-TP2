@@ -20,5 +20,3 @@ void Bits::represent(unsigned int number){
 bool Bits::get(int pos) const {
   return this->data[pos];
 }
-
-Bits::~Bits() {}

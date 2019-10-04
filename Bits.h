@@ -28,7 +28,6 @@ class Bits {
    * Obtiene el bit en la posicion pos
    */
   bool get(int pos) const;
-  ~Bits();
 };
 
 #endif

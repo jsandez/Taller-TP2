@@ -31,8 +31,6 @@ class BlockConsumerThread : public Thread {
    * Corre el thread
    */
   virtual void run() override;
-
-  virtual ~BlockConsumerThread() override;
 };
 
 #endif

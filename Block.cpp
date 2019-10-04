@@ -112,5 +112,3 @@ Block& Block::operator=(Block &&other) {
     other.size = 0;
     return *this;
 }
-
-Block::~Block() {}

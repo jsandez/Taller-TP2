@@ -7,35 +7,15 @@
 #include "BlockProducerThread.h"
 #include "BlockConsumerThread.h"
 
-static void __checkArgs(int argc) {
-  if (argc < 6) {
-    throw std::invalid_argument("WRONG ARGS");
-  }
-}
-
-static int __getNumberOfBlocks(InputStream &input_stream) {
-  int number_of_blocks = input_stream.getNumberOfBlocks();
-  if (number_of_blocks == -1) {
-    throw new std::runtime_error("No hay bloques a procesar");
-  }
-  return number_of_blocks;
-}
-
 int main(int argc, char **argv) {
-  try {
-    __checkArgs(argc);
-  }
-  catch (const std::invalid_argument &e) {
-    std::cout << e.what() << std::endl;
-    return 1;
+  if (argc < 6) {
+    std::cout << "WRONG ARGS" << std::endl;
   }
   try {
     /*
      * Preparo los archivos de stream segun
      * si van a ser tomados de IO estandar
-     * o de archivos. Esto se decide en tiempo
-     * de ejecucion, por eso es un puntero
-     * a istream
+     * o de archivos.
      */
     std::istream *istream;
     if (argv[4][0] != '-') {
@@ -50,13 +30,13 @@ int main(int argc, char **argv) {
     } else {
       ostream = &std::cout;
     }
+    OutputStream output_stream(ostream);
 
     /*
      * ZONA DE THREADS
      */
     // Creo los threads
-    OutputStream output_stream(ostream);
-    int number_of_blocks = __getNumberOfBlocks(input_stream);
+    int number_of_blocks = input_stream.getNumberOfBlocks();
     std::vector<Thread *> ths;
     std::vector<ThreadSafeQueue *> queues;
     BlockProcessMonitor block_process_monitor(input_stream);
@@ -74,28 +54,25 @@ int main(int argc, char **argv) {
       queues.push_back(thread_safe_queue);
     }
     // Thread consumidor
-    Thread *th_consumer =
-        new BlockConsumerThread(queues,
-                                number_of_blocks,
-                                output_stream);
-
+    BlockConsumerThread th_consumer(queues,
+                                    number_of_blocks,
+                                    output_stream);
     // Run threads
     for (int i = 0; i < atoi(argv[3]); i++) {
       ths[i]->start();
     }
-    th_consumer->start();
+    th_consumer.start();
 
     // Join threads
     for (int i = 0; i < atoi(argv[3]); i++) {
       ths[i]->join();
     }
-    th_consumer->join();
+    th_consumer.join();
 
     // Delete threads y streams
     for (int i = 0; i < atoi(argv[3]); i++) {
       delete ths[i];
     }
-    delete th_consumer;
     delete istream;
     delete ostream;
   }

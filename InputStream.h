@@ -14,7 +14,7 @@ class InputStream {
   std::istream* is;
   int size;
   int number_of_blocks;
-  int __getNumber();
+  unsigned int __getNumber();
   void __setNumberOfBlocks(int block_size);
 
  public:
@@ -37,7 +37,6 @@ class InputStream {
    * contiene el stream
    */
   int getNumberOfBlocks() const;
-  ~InputStream();
 };
 
 #endif

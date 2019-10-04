@@ -1,6 +1,8 @@
 #include <bitset>
 #include "OutputStream.h"
 #include <list>
+#include <netinet/in.h>
+#include <cstring>
 
 OutputStream::OutputStream(std::ostream *ostream) : os(ostream) {
   if (this->os->fail()) {
@@ -9,14 +11,15 @@ OutputStream::OutputStream(std::ostream *ostream) : os(ostream) {
 }
 
 void OutputStream::setReference(unsigned int reference) {
-  this->os->write((const char*)&reference,4);
+  unsigned int reference_out(htonl(reference));
+  this->os->write((const char *) &reference_out, 4);
 }
 
 void OutputStream::setBitAmount(unsigned int c) {
   this->os->put((char) c);
 }
 
-void OutputStream::setBits(std::list<int> &list) {
+void OutputStream::setBits(const std::list<int>& list) {
   std::bitset<8> bit_set;
   int i = 7;
   for (int entero : list) {

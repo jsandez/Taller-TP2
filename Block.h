@@ -68,7 +68,6 @@ class Block {
   Block& operator=(const Block &other) = delete;
   Block(Block&& other);
   Block & operator=(Block&& other);
-  ~Block();
 };
 
 #endif

@@ -20,5 +20,3 @@ void BlockConsumerThread::run() {
     }
   }
 }
-
-BlockConsumerThread::~BlockConsumerThread() {}
