@@ -36,8 +36,7 @@ class OutputStream {
    * Escribe la lista de bits en el
    * stream de salida
    */
-  void setBits(std::list<int> list);
-  ~OutputStream();
+  void setBits(std::list<int> &list);
 };
 
 #endif

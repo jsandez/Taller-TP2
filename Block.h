@@ -58,7 +58,7 @@ class Block {
   unsigned int getBitSize() const;
   int getSize() const;
   std::list<int> getList() const;
-  unsigned int getNumber(unsigned int index);
+  unsigned int getNumber(unsigned int index) const;
 
   /*
    * Constructor y asignacion por copia eliminada.

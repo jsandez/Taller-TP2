@@ -1,6 +1,7 @@
 #include "Block.h"
 #include "Bits.h"
 #include <list>
+#include <iostream>
 
 // PRIVADO
 unsigned int Block::__getMax() {
@@ -80,7 +81,7 @@ int Block::getSize() const {
   return this->size;
 }
 
-unsigned int Block::getNumber(unsigned int index) {
+unsigned int Block::getNumber(unsigned int index) const {
   return this->numbers[index];
 }
 

@@ -15,7 +15,8 @@ class ThreadSafeQueue {
   std::queue<Block> queue;
   int size;
   std::mutex m;
-  std::condition_variable cond;
+  std::condition_variable cond_push;
+  std::condition_variable cond_pop;
 
  public:
   /*
@@ -39,7 +40,6 @@ class ThreadSafeQueue {
    * poder realizar el pop
    */
   Block pop();
-  ~ThreadSafeQueue();
 };
 
 #endif

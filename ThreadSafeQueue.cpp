@@ -5,23 +5,21 @@ ThreadSafeQueue::ThreadSafeQueue(int size) : size(size) {}
 void ThreadSafeQueue::push(Block &block) {
   std::unique_lock<std::mutex> lock(m);
   while (this->queue.size() == (unsigned int) this->size) {
-    cond.wait(lock);
+    cond_push.wait(lock);
   }
   this->queue.push(std::move(block));
   lock.unlock();
-  cond.notify_all();
+  cond_pop.notify_all();
 }
 
 Block ThreadSafeQueue::pop() {
   std::unique_lock<std::mutex> lock(m);
   while (this->queue.empty()) {
-    cond.wait(lock);
+    cond_pop.wait(lock);
   }
   Block block = std::move(this->queue.front());
   this->queue.pop();
   lock.unlock();
-  cond.notify_all();
+  cond_push.notify_all();
   return block;
 }
-
-ThreadSafeQueue::~ThreadSafeQueue() {}
