@@ -38,7 +38,7 @@ void InputStream::fillBlock(Block &block, int block_number) {
   this->is->seekg(block_number * 4 * block.getSize(), this->is->beg);
   for (int i = 0; i < block.getSize(); i++) {
     int number = __getNumber();
-    if (number != -1) {
+    if (this->is->gcount() != 0) {
       block.addNumber(i, number);
     } else {
       block.addNumber(i, block.getNumber(i - 1));
