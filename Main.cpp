@@ -12,26 +12,20 @@ int main(int argc, char **argv) {
     std::cout << "WRONG ARGS" << std::endl;
   }
   try {
-    /*
-     * Preparo los archivos de stream segun
-     * si van a ser tomados de IO estandar
-     * o de archivos.
-     */
-    std::istream *istream;
+    std::ifstream ifs;
+    std::istream *istream = &std::cin;
     if (argv[4][0] != '-') {
-      istream = new std::ifstream(argv[4], std::ifstream::binary);
-    } else {
-      istream = &std::cin;
+      ifs.open(argv[4], std::ifstream::binary);
+      istream = &ifs;
     }
     InputStream input_stream(istream, atoi(argv[1]));
-    std::ostream *ostream;
+    std::ofstream ofs;
+    std::ostream *ostream = &std::cout;
     if (argv[5][0] != '-') {
-      ostream = new std::ofstream(argv[5], std::ofstream::binary);
-    } else {
-      ostream = &std::cout;
+      ofs.open(argv[5], std::ofstream::binary);
+      ostream = &ofs;
     }
     OutputStream output_stream(ostream);
-
     /*
      * ZONA DE THREADS
      */
@@ -73,8 +67,6 @@ int main(int argc, char **argv) {
     for (int i = 0; i < atoi(argv[3]); i++) {
       delete ths[i];
     }
-    delete istream;
-    delete ostream;
   }
   catch (const std::runtime_error &e) {
     std::cout << e.what() << std::endl;
